@@ -41,26 +41,14 @@ export default {
       state.movieDetail = data
     },
     SET_PREV_PAGE(state, data) {
-      if (data === 'popular' && state.popularPageNum !== 1) {
-        state.popularPageNum--
-      }
-      if (data === 'nowPlaying' && state.nowPlayingPageNum !== 1) {
-        state.nowPlayingPageNum--
-      }
-      if (data === 'upComing' && state.upComingPageNum !== 1) {
-        state.upComingPageNum--
-      }
+      if (data === 'popular' && state.popularPageNum !== 1) { state.popularPageNum-- }
+      if (data === 'nowPlaying' && state.nowPlayingPageNum !== 1) { state.nowPlayingPageNum-- }
+      if (data === 'upComing' && state.upComingPageNum !== 1) { state.upComingPageNum-- }
     },
     SET_NEXT_PAGE(state, data) {
-      if (data === 'popular' && state.popularTotalPage >= state.popularPageNum) {
-        state.popularPageNum++
-      }
-      if (data === 'nowPlaying' && state.nowPlayingTotalPage >= state.nowPlayingPageNum) {
-        state.nowPlayingPageNum++
-      }
-      if (data === 'upComing' && state.upComingTotalPage >= state.upComingPageNum) {
-        state.upComingPageNum++
-      }
+      if (data === 'popular' && state.popularTotalPage >= state.popularPageNum) { state.popularPageNum++ }
+      if (data === 'nowPlaying' && state.nowPlayingTotalPage >= state.nowPlayingPageNum) { state.nowPlayingPageNum++ }
+      if (data === 'upComing' && state.upComingTotalPage >= state.upComingPageNum) { state.upComingPageNum++ }
     }
   },
   actions: {
@@ -153,32 +141,43 @@ export default {
     },
     async changePageNum({ commit, dispatch }, data) {
       console.log(data)
-      if (data.type === 'prev') {
-        await commit('SET_PREV_PAGE', data.category)
 
-        if (data.category === 'popular') {
-          console.log(data.category)
-          dispatch('getPopularMovie')
-        }
-        else if (data.category === 'nowPlaying') {
-          dispatch('getNowPlayingMovie')
-        }
-        else if (data.category === 'upComing') {
-          dispatch('getUpcomingMovie')
-        }
-      } else if (data.type === 'next') {
-        await commit('SET_NEXT_PAGE', data.category)
+      // 이중 조건문
+      // if (data.type === 'prev') {
+      //   await commit('SET_PREV_PAGE', data.category)
 
-        if (data.category === 'popular') {
-          dispatch('getPopularMovie')
-        }
-        else if (data.category === 'nowPlaying') {
-          dispatch('getNowPlayingMovie')
-        }
-        else if (data.category === 'upComing') {
-          dispatch('getUpcomingMovie')
-        }
-      }
+      //   if (data.category === 'popular') {
+      //     console.log(data.category)
+      //     dispatch('getPopularMovie')
+      //   }
+      //   else if (data.category === 'nowPlaying') {
+      //     dispatch('getNowPlayingMovie')
+      //   }
+      //   else if (data.category === 'upComing') {
+      //     dispatch('getUpcomingMovie')
+      //   }
+      // } else if (data.type === 'next') {
+      //   await commit('SET_NEXT_PAGE', data.category)
+
+      //   if (data.category === 'popular') {
+      //     dispatch('getPopularMovie')
+      //   }
+      //   else if (data.category === 'nowPlaying') {
+      //     dispatch('getNowPlayingMovie')
+      //   }
+      //   else if (data.category === 'upComing') {
+      //     dispatch('getUpcomingMovie')
+      //   }
+      // }
+
+      // 개선
+      data.type === 'prev'
+        ? await commit('SET_PREV_PAGE', data.category)
+        : await commit('SET_NEXT_PAGE', data.category)
+
+      if (data.category === 'popular') {dispatch('getPopularMovie')}
+      else if (data.category === 'nowPlaying') {dispatch('getNowPlayingMovie')}
+      else if (data.category === 'upComing') {dispatch('getUpcomingMovie')}
     }
   }
 }
